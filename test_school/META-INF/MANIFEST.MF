@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: test3
+Bundle-SymbolicName: test_school;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Export-Package: inSameSchoolDifferentYears,
+ sameCodeClassDifferentYears,
+ school,
+ schoolName,
+ studentName,
+ studentOfSchool
+Require-Bundle: org.eclipse.pde.core,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.transaction;visibility:=reexport,
+ org.eclipse.viatra2.emf.incquery.runtime;visibility:=reexport
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
