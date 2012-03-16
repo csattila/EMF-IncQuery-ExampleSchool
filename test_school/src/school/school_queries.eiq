@@ -8,16 +8,16 @@ import "http://www.eclipse.org/emf/2002/Ecore"
 
 
 	pattern schoolName(S, Name) = {
- 		//School(S);
+ 		School(S);
  		School.name(S, Name);
-  		//School.name(S, Name);
+  		School.name(S, Name);
  		EString(Name);
  	}
 	 	
    	pattern studentName(S, Name) = {
  		Student(S);
   		Student.name(S, Name);
- 		//EString(Name);
+ 		EString(Name);
  	}		
  	pattern studentOfSchool(Student, School, Year, SchoolClass) = {
  		School(School);
