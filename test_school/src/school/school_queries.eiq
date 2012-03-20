@@ -1,3 +1,5 @@
+package school
+
 import "http:///school.ecore" 
 import "http://www.eclipse.org/emf/2002/Ecore"
 
@@ -7,6 +9,9 @@ import "http://www.eclipse.org/emf/2002/Ecore"
 	}
 
 
+	/**
+	 * School names pattern
+	 */
 	pattern schoolName(S, Name) = {
  		School(S);
  		School.name(S, Name);
@@ -14,11 +19,18 @@ import "http://www.eclipse.org/emf/2002/Ecore"
  		EString(Name);
  	}
 	 	
+	/**
+	 * Students name pattern
+	 */
    	pattern studentName(S, Name) = {
  		Student(S);
   		Student.name(S, Name);
  		EString(Name);
  	}		
+ 	
+ 	/**
+ 	 * Return the students of the school
+ 	 */
  	pattern studentOfSchool(Student, School, Year, SchoolClass) = {
  		School(School);
  		School.years(School, Year);
@@ -28,9 +40,10 @@ import "http://www.eclipse.org/emf/2002/Ecore"
  		SchoolClass.students(SchoolClass, Student);
  		Student(Student);
  	}	
- 	
-	
- 	// EMF patterns involving more then one attribute value should be SHAREable!
+ 		
+ 	/**
+ 	 * Return a students pair, who study in same school and the first one is the older
+ 	 */
  	pattern inSameSchoolDifferentYears(ElderStudent, YoungerStudent) = {
  		find studentOfSchool(ElderStudent, School, Year1, SchoolClass1);
  		find studentOfSchool(YoungerStudent, School, Year2, SchoolClass2);
@@ -39,10 +52,13 @@ import "http://www.eclipse.org/emf/2002/Ecore"
  		EInt(Date1);
  		Year.startingDate(Year2, Date2);
  		EInt(Date2); 		
- 		//check( toInteger(value(Date1)) < toInteger(value(Date2)));		
+ 				
  	}	
   				
- 	// EMF patterns involving more then one attribute value should be SHAREable!
+
+	/**
+	 * Return a students pair, who study in same school class and the first one is the older
+	 */
  	pattern sameCodeClassDifferentYears(ElderStudent, YoungerStudent) = {
  		find inSameSchoolDifferentYears(ElderStudent, YoungerStudent);
  		
@@ -54,35 +70,7 @@ import "http://www.eclipse.org/emf/2002/Ecore"
   		SchoolClass(SchoolClass2);
  		SchoolClass.code(SchoolClass2, Code2);
  		EChar(Code2);
- 		//check(value(Code1) == value(Code2));
+ 		
  	}
-/* 	
- 	// This is for development-time testing with Viatra2
- 	// Run with a .school instance model previously imported into the VPML 
- 	rule main() = seq {
 
- 		println("-----");
- 		forall School with find school(School) do 
- 		  choose SchoolName with find schoolName(School, SchoolName) do seq {
- 			println("School: "+ value(SchoolName));
- 			forall Student, Year, SchoolClass with find studentOfSchool(Student, School, Year, SchoolClass) do
- 			  choose StudentName with find studentName(Student, StudentName) do
- 				println("  "+ value(StudentName));
- 		  }
-  		println("-----");
- 		forall ElderStudent, YoungerStudent with find inSameSchoolDifferentYears(ElderStudent, YoungerStudent) do 
- 		  choose ElderStudentName with find studentName(ElderStudent, ElderStudentName) do 
- 		    choose YoungerStudentName with find studentName(YoungerStudent, YoungerStudentName) do 
- 		      println("In same school, different year: "
- 		      	 + value(ElderStudentName) + " (elder) and "+ value(YoungerStudentName) + " (younger)");		
-
- 		println("-----");
- 		forall ElderStudent, YoungerStudent with find sameCodeClassDifferentYears(ElderStudent, YoungerStudent) do 
- 		  choose ElderStudentName with find studentName(ElderStudent, ElderStudentName) do 
- 		    choose YoungerStudentName with find studentName(YoungerStudent, YoungerStudentName) do 
- 			  println("In classes of a school with the same code, different year: "
- 			  	 + value(ElderStudentName) + " (elder) and "+ value(YoungerStudentName) + " (younger)");
- 	}
- 	* 
- 	* */
 
